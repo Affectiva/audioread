@@ -100,7 +100,7 @@ windows_error_mode_lock = threading.Lock()
 
 class FFmpegAudioFile(object):
     """An audio file decoded by the ffmpeg command-line utility."""
-    def __init__(self, filename, block_size=4096):
+    def __init__(self, filename, block_size=4096, extra_options=[]):
         # On Windows, we need to disable the subprocess's crash dialog
         # in case it dies. Passing SEM_NOGPFAULTERRORBOX to SetErrorMode
         # disables this behavior.
@@ -117,11 +117,14 @@ class FFmpegAudioFile(object):
                 previous_error_mode | SEM_NOGPFAULTERRORBOX
             )
 
+        options = ['-i', filename, '-f', 's16le']
+        options.extend(extra_options)
+        options.extend(['-'])
         try:
             self.devnull = open(os.devnull)
             self.proc = popen_multiple(
                 COMMANDS,
-                ['-i', filename, '-f', 's16le', '-'],
+                options,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 stdin=self.devnull,
