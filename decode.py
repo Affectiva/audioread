@@ -21,6 +21,11 @@ import wave
 import contextlib
 
 
+OUTPUT_CHANNELS = 1
+SAMPLE_RATE = 16000
+EXTRA_OPTIONS = ['-ac', str(OUTPUT_CHANNELS), '-ar', str(SAMPLE_RATE)]
+
+
 def decode(filename):
     filename = os.path.abspath(os.path.expanduser(filename))
     if not os.path.exists(filename):
@@ -28,7 +33,7 @@ def decode(filename):
         sys.exit(1)
 
     try:
-        with audioread.audio_open(filename, extra_options=['-out_channel_count', '1', '-ar', '8000']) as f:
+        with audioread.audio_open(filename, extra_options=EXTRA_OPTIONS) as f:
             print('Input file: %i channels at %i Hz; %.1f seconds.' %
                   (f.channels, f.samplerate, f.duration),
                   file=sys.stderr)
@@ -36,8 +41,8 @@ def decode(filename):
                   file=sys.stderr)
 
             with contextlib.closing(wave.open(filename + '.wav', 'w')) as of:
-                of.setnchannels(f.channels)
-                of.setframerate(8000)
+                of.setnchannels(OUTPUT_CHANNELS)
+                of.setframerate(SAMPLE_RATE)
                 of.setsampwidth(2)
 
                 for buf in f:
