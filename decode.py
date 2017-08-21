@@ -23,7 +23,7 @@ import contextlib
 
 OUTPUT_CHANNELS = 1
 SAMPLE_RATE = 16000
-EXTRA_OPTIONS = ['-ac', str(OUTPUT_CHANNELS), '-ar', str(SAMPLE_RATE)]
+EXTRA_OPTIONS = ['-ac', OUTPUT_CHANNELS, '-ar', SAMPLE_RATE]
 
 
 def decode(filename):
