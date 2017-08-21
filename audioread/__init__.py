@@ -108,7 +108,7 @@ def audio_open(path, block_size=4096, extra_options=[]):
     # FFmpeg.
     from . import ffdec
     try:
-        return ffdec.FFmpegAudioFile(path, block_size=4096, extra_options=extra_options)
+        return ffdec.FFmpegAudioFile(path, block_size=block_size, extra_options=extra_options)
     except DecodeError:
         pass
 
