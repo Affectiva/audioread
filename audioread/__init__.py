@@ -70,7 +70,7 @@ def _mad_available():
         return True
 
 
-def audio_open(path, extra_options=[]):
+def audio_open(path, block_size=4096, extra_options=[]):
     """Open an audio file using a library that is available on this
     system.
     """
@@ -108,7 +108,7 @@ def audio_open(path, extra_options=[]):
     # FFmpeg.
     from . import ffdec
     try:
-        return ffdec.FFmpegAudioFile(path, extra_options=extra_options)
+        return ffdec.FFmpegAudioFile(path, block_size=4096, extra_options=extra_options)
     except DecodeError:
         pass
 

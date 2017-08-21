@@ -33,7 +33,7 @@ def decode(filename):
         sys.exit(1)
 
     try:
-        with audioread.audio_open(filename, extra_options=EXTRA_OPTIONS) as f:
+        with audioread.audio_open(filename, block_size=19200, extra_options=EXTRA_OPTIONS) as f:
             print('Input file: %i channels at %i Hz; %.1f seconds.' %
                   (f.channels, f.samplerate, f.duration),
                   file=sys.stderr)
